@@ -17,9 +17,7 @@ type Entry struct {
 	User  User
 }
 
-// var FIAT_ENDPOINT = "https://api.rubbrband.com/"
-
-var FIAT_ENDPOINT = "http://localhost:4200/"
+var FIAT_ENDPOINT = "https://api.rubbrband.com/"
 
 var ApiKey string
 
@@ -27,7 +25,7 @@ func SetApiKey(Key string) {
 	ApiKey = Key
 }
 
-func Store(key string, value string, local bool, user User) string {
+func Store(key string, value string, user User) string {
 	if ApiKey == "" {
 		return "No API Key set! Call SetApiKey with your Rubbrband API Key."
 	}
@@ -82,7 +80,7 @@ func Delete(key string) bool {
 		panic(err)
 	}
 
-	if resp.StatusCode == http.StatusCreated {
+	if resp.StatusCode == 200 {
 		return true
 	} else {
 		return false
