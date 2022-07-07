@@ -3,7 +3,6 @@ package rubbrband_go
 import (
 	"bytes"
 	"encoding/json"
-	"io/ioutil"
 	"net/http"
 )
 
@@ -56,17 +55,10 @@ func Replay(key string) string {
 		panic(err)
 	}
 
-	body, err := ioutil.ReadAll(resp.Body)
+	var data Entry
+	json.NewDecoder(resp.Body).Decode(&data)
 
-	if err != nil {
-		//Failed to read response.
-		panic(err)
-	}
-
-	//Convert bytes to String and print
-	jsonStr := string(body)
-
-	return jsonStr
+	return data.Value
 }
 
 func Delete(key string) bool {
