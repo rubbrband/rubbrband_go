@@ -59,5 +59,5 @@ func main() {
 ## Delete an entry
 
 ```
-    deleted := rubbrband_go.Delete("foo:)
+    deleted := rubbrband_go.Delete("foo")
 ```
