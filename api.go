@@ -16,7 +16,8 @@ type Entry struct {
 	User  User
 }
 
-var FIAT_ENDPOINT = "https://api.rubbrband.com/"
+// var FIAT_ENDPOINT = "https://api.rubbrband.com/"
+var FIAT_ENDPOINT = "http://localhost:4200/"
 
 var ApiKey string
 
@@ -35,8 +36,10 @@ func Store(key string, value string, user User) string {
 	}
 	body, _ := json.Marshal(entry)
 
-	_, err := http.Post(FIAT_ENDPOINT+"put/"+key+"?api_key="+ApiKey, "application/json", bytes.NewBuffer(body))
-
+	resp, err := http.Post(FIAT_ENDPOINT+"put/"+key+"?api_key="+ApiKey, "application/json", bytes.NewBuffer(body))
+	if resp.Status != "200 OK" {
+		return "Unsuccessful, please check your API key and user info"
+	}
 	if err != nil {
 		panic(err)
 	}
@@ -50,6 +53,9 @@ func Replay(key string) string {
 	}
 
 	resp, err := http.Get(FIAT_ENDPOINT + "get/" + key + "?api_key=" + ApiKey)
+	if resp.Status != "200 OK" {
+		return "Unsuccessful, please check your API key, and cache key"
+	}
 
 	if err != nil {
 		panic(err)
